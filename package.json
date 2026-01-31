@@ -1,0 +1,53 @@
+{
+  "name": "multilanguage-keyboard",
+  "version": "1.0.0",
+  "description": "A versatile virtual keyboard supporting English, Hindi, Marathi, Telugu, Tamil, and Bengali",
+  "main": "dist/keyboard.js",
+  "module": "src/keyboard.js",
+  "types": "types/index.d.ts",
+  "files": [
+    "dist/",
+    "src/",
+    "types/",
+    "LICENSE",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "echo 'Build complete - bundled file is in dist/keyboard.js'",
+    "test": "echo 'Tests not implemented yet'",
+    "prepublishOnly": "echo 'Ready to publish'"
+  },
+  "keywords": [
+    "keyboard",
+    "virtual-keyboard",
+    "multilingual",
+    "hindi",
+    "bengali",
+    "tamil",
+    "telugu",
+    "marathi",
+    "indic",
+    "input-method",
+    "accessibility",
+    "i18n",
+    "l10n"
+  ],
+  "author": "Your Name <your.email@example.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/multilanguage-keyboard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/multilanguage-keyboard/issues"
+  },
+  "homepage": "https://github.com/yourusername/multilanguage-keyboard#readme",
+  "cdn": "https://cdn.jsdelivr.net/gh/yourusername/multilanguage-keyboard@latest/dist/keyboard.js",
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not IE 11"
+  ]
+}

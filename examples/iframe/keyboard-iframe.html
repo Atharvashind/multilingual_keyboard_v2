@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyboard (iframe)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600&family=Noto+Sans+Devanagari&family=Noto+Sans+Bengali&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            margin: 0; 
+            font-family: 'Noto Sans', sans-serif;
+            background: transparent;
+        }
+    </style>
+</head>
+<body>
+    <div id="keyboard"></div>
+
+    <script src="../../dist/keyboard.js"></script>
+    <script>
+        // Custom implementation for iframe communication
+        class IframeKeyboard extends MultiLanguageKeyboard {
+            handleKey(key) {
+                super.handleKey(key);
+
+                // Send message to parent window
+                if (window.parent !== window) {
+                    switch(key) {
+                        case 'Backspace':
+                            window.parent.postMessage({ type: 'keyboard-backspace' }, '*');
+                            break;
+                        case 'Space':
+                            window.parent.postMessage({ type: 'keyboard-input', char: ' ' }, '*');
+                            break;
+                        case 'Enter':
+                            window.parent.postMessage({ type: 'keyboard-input', char: '\n' }, '*');
+                            break;
+                        default:
+                            if (!['Shift', 'Caps', 'Ctrl', 'Alt', 'Win', 'Tab', 'Menu'].includes(key)) {
+                                window.parent.postMessage({ type: 'keyboard-input', char: key }, '*');
+                            }
+                    }
+                }
+            }
+        }
+
+        // Initialize
+        new IframeKeyboard('#keyboard', {
+            language: 'english',
+            showControls: false // Hide controls in iframe mode
+        });
+    </script>
+</body>
+</html>

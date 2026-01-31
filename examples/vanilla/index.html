@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MultiLanguage Keyboard - Vanilla JS Example</title>
+
+    <!-- Google Fonts for all languages -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600&family=Noto+Sans+Bengali&family=Noto+Sans+Devanagari&family=Noto+Sans+Tamil&family=Noto+Sans+Telugu&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        .subtitle { font-size: 1.2rem; opacity: 0.9; }
+
+        .input-section {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 18px;
+            font-family: 'Noto Sans', 'Noto Sans Devanagari', 'Noto Sans Bengali', sans-serif;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .info {
+            background: #f0f0f0;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .keyboard-wrapper {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌍 MultiLanguage Keyboard</h1>
+            <p class="subtitle">Vanilla JavaScript Implementation Demo</p>
+        </header>
+
+        <div class="input-section">
+            <div class="info">
+                <strong>Instructions:</strong> Click on the textarea below, then use the virtual keyboard to type. 
+                You can switch between English, Hindi, Marathi, Telugu, Tamil, and Bengali using the language buttons.
+            </div>
+
+            <label for="textInput">📝 Your Text:</label>
+            <textarea id="textInput" placeholder="Start typing here... (or click virtual keyboard keys)"></textarea>
+
+            <div id="keyboard" class="keyboard-wrapper"></div>
+        </div>
+    </div>
+
+    <!-- Load Keyboard -->
+    <script src="../../dist/keyboard.js"></script>
+
+    <script>
+        // Initialize keyboard
+        const keyboard = new MultiLanguageKeyboard('#keyboard', {
+            targetInput: document.getElementById('textInput'),
+            language: 'english',
+            showControls: true,
+            onLanguageChange: (lang) => {
+                console.log('Language switched to:', lang);
+            },
+            onKeyPress: (key) => {
+                console.log('Key pressed:', key);
+            }
+        });
+
+        // You can programmatically control the keyboard:
+        // keyboard.switchLanguage('hindi');
+        // keyboard.clear();
+        // keyboard.speak();
+    </script>
+</body>
+</html>
