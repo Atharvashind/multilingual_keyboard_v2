@@ -164,6 +164,17 @@ multilanguage-keyboard/
 5. Open a Pull Request
 
 ---
+## 📸 Screenshots
+
+### Desktop
+![Desktop](C:\Users\USER\Downloads)
+
+### Mobile
+![Mobile](screenshots/mobile.png)
+
+### Language Switching
+![Languages](screenshots/language-switch.png)
+
 
 ## 📄 License
 
