@@ -351,9 +351,9 @@ For IE11 support, include:
 
 ## Getting Help
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/multilanguage-keyboard/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/multilanguage-keyboard/discussions)
-- **Email**: your.email@example.com
+- **Issues**: [GitHub Issues](https://github.com/Atharvashind/multilanguage-keyboard/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Atharvashind/multilanguage-keyboard/discussions)
+- **Email**: satharva912@gmail.com
 
 ---
 
