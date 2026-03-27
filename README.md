@@ -167,7 +167,8 @@ multilanguage-keyboard/
 ## 📸 Screenshots
 
 ### Desktop
-<img width="1920" height="1567" alt="screencapture-127-0-0-1-5500-index-html-2026-01-31-22_37_26" src="https://github.com/user-attachments/assets/fb689eb6-98b5-4c52-8c68-2eb63ca1d977" />
+<img width="509" height="294" alt="key_leng" src="https://github.com/user-attachments/assets/45384179-7f7e-49f6-8d94-5bb4b580d5e1" />
+
 
 
 ### Mobile
