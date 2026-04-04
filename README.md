@@ -379,10 +379,12 @@ Covered cases include: CSS selector and DOM element constructors, missing contai
 ## � Screenshots
 
 ### Desktop
-<img width="509" height="294" alt="key_leng" src="https://github.com/user-attachments/assets/45384179-7f7e-49f6-8d94-5bb4b580d5e1" />
+<img width="900" height="443" alt="guaj_desktop" src="https://github.com/user-attachments/assets/5bd5f856-2b20-4365-9eb0-bfec43ed81ea" />
+
 
 ### Mobile
-![Mobile](screenshots/mobile.png)
+<img width="172" height="377" alt="guaj_add" src="https://github.com/user-attachments/assets/3206cbe9-8461-44c5-83c1-b577650c0bd4" />
+
 
 ### Language Switching
 ![Languages](screenshots/language-switch.png)
