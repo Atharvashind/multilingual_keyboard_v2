@@ -1,4 +1,10 @@
 /**
+ * multilanguage-keyboard v1.0.1
+ * A zero-dependency virtual keyboard supporting English, Hindi, Marathi, Telugu, Tamil, Bengali and Gujarati
+ * License: MIT
+ * Built: 2026-04-04T15:35:27.978Z
+ */
+/**
  * MultiLanguageKeyboard - A versatile virtual keyboard supporting 6 languages
  * @version 1.0.1
  * @license MIT
@@ -568,13 +574,5 @@ document.addEventListener('DOMContentLoaded', () => {
         new MultiLanguageKeyboard(el, options);
     });
 });
-
-// ─── Module exports ───────────────────────────────────────────────────────────
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = MultiLanguageKeyboard;
-}
-if (typeof window !== 'undefined') {
-    window.MultiLanguageKeyboard = MultiLanguageKeyboard;
-}
 
 export default MultiLanguageKeyboard;

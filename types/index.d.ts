@@ -1,79 +1,88 @@
 export interface Layout {
-  name: string;
-  normal: string[][];
-  shift: string[][];
+    name: string;
+    normal: string[][];
+    shift: string[][];
 }
 
+export type LanguageCode =
+    | 'english'
+    | 'hindi'
+    | 'marathi'
+    | 'telugu'
+    | 'tamil'
+    | 'bengali'
+    | 'gujarati'
+    | (string & {}); // allow custom registered layouts
+
 export interface KeyboardOptions {
-  /** Default language code */
-  language?: string;
+    /** Default language to display. Defaults to 'english'. */
+    language?: LanguageCode;
 
-  /** Input element to receive typed text */
-  targetInput?: HTMLElement | null;
+    /** Input/textarea element (or CSS selector) that receives typed text. */
+    targetInput?: HTMLElement | HTMLInputElement | HTMLTextAreaElement | string | null;
 
-  /** Show Clear and Speak buttons */
-  showControls?: boolean;
+    /** Show the built-in Clear and Speak buttons. Defaults to true. */
+    showControls?: boolean;
 
-  /** Theme name (reserved for future use) */
-  theme?: string;
+    /** Theme name — reserved for future use. */
+    theme?: string;
 
-  /** Callback when a key is pressed */
-  onKeyPress?: (key: string) => void;
+    /** Called every time a key is pressed, with the key value as argument. */
+    onKeyPress?: (key: string) => void;
 
-  /** Callback when language is changed */
-  onLanguageChange?: (language: string) => void;
+    /** Called when the active language changes. */
+    onLanguageChange?: (language: LanguageCode) => void;
 }
 
 export declare class MultiLanguageKeyboard {
-  /**
-   * Creates a new MultiLanguageKeyboard instance
-   * @param container - Selector string or HTMLElement where keyboard will be rendered
-   * @param options - Configuration options
-   */
-  constructor(container: string | HTMLElement, options?: KeyboardOptions);
+    /**
+     * Creates and renders a virtual keyboard inside the given container.
+     * @param container CSS selector string or DOM element
+     * @param options   Optional configuration
+     */
+    constructor(container: string | HTMLElement, options?: KeyboardOptions);
 
-  /** Current active language */
-  currentLanguage: string;
+    currentLanguage: LanguageCode;
+    isShift: boolean;
+    isCapsLock: boolean;
+    targetInput: HTMLElement | null;
 
-  /** Whether shift is currently active */
-  isShift: boolean;
+    /**
+     * Switch the keyboard to a different language layout.
+     * @param language Language code, e.g. 'hindi', 'gujarati'
+     */
+    switchLanguage(language: LanguageCode): void;
 
-  /** Whether caps lock is currently active */
-  isCapsLock: boolean;
+    /**
+     * Change the target input element at runtime.
+     * @param input CSS selector or DOM element
+     */
+    setTarget(input: string | HTMLElement): void;
 
-  /** Current target input element */
-  targetInput: HTMLElement | null;
+    /** Clear the target input field. */
+    clear(): void;
 
-  /**
-   * Switch to a different language layout
-   * @param language - Language code (e.g., 'english', 'hindi')
-   */
-  switchLanguage(language: string): void;
+    /** Read the target input aloud using the Web Speech API. */
+    speak(): void;
 
-  /**
-   * Set the target input element dynamically
-   * @param input - Selector string or HTMLElement
-   */
-  setTarget(input: string | HTMLElement): void;
+    /** Remove the keyboard from the DOM and clean up all event listeners. */
+    destroy(): void;
 
-  /** Clear the target input field */
-  clear(): void;
+    /**
+     * Handle a key press programmatically (same as clicking a key).
+     * @param key Key value, e.g. 'a', 'Backspace', 'Space'
+     */
+    handleKey(key: string): void;
 
-  /** Speak the content of target input using Web Speech API */
-  speak(): void;
+    /**
+     * Register a custom keyboard layout.
+     * @param name   Unique identifier for the layout
+     * @param layout Layout definition with normal and shift key arrays
+     */
+    static registerLayout(name: string, layout: Layout): void;
 
-  /** Remove the keyboard from DOM and cleanup */
-  destroy(): void;
-
-  /**
-   * Register a custom keyboard layout
-   * @param name - Unique identifier for the layout
-   * @param layout - Layout configuration object
-   */
-  static registerLayout(name: string, layout: Layout): void;
-
-  /** Built-in language layouts */
-  static LAYOUTS: Record<string, Layout>;
+    /** All currently registered layouts. */
+    static readonly LAYOUTS: Record<string, Layout>;
 }
 
 export default MultiLanguageKeyboard;

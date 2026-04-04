@@ -1,4 +1,5 @@
 // English QWERTY Layout
+// Usage: import this after dist/keyboard.js, or use MultiLanguageKeyboard.registerLayout directly.
 MultiLanguageKeyboard.registerLayout('english', {
     name: '🇺🇸 English',
     normal: [

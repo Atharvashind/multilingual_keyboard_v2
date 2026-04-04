@@ -1,10 +1,17 @@
 {
   "name": "multilanguage-keyboard",
-  "version": "1.0.0",
-  "description": "A versatile virtual keyboard supporting English, Hindi, Marathi, Telugu, Tamil, and Bengali",
-  "main": "dist/keyboard.js",
-  "module": "src/keyboard.js",
+  "version": "1.0.1",
+  "description": "A zero-dependency virtual keyboard supporting English, Hindi, Marathi, Telugu, Tamil, Bengali and Gujarati",
+  "main": "dist/keyboard.umd.js",
+  "module": "dist/keyboard.esm.js",
+  "browser": "dist/keyboard.umd.js",
   "types": "types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/keyboard.esm.js",
+      "require": "./dist/keyboard.umd.js"
+    }
+  },
   "files": [
     "dist/",
     "src/",
@@ -14,15 +21,16 @@
     "CHANGELOG.md"
   ],
   "scripts": {
-    "build": "echo 'Build complete - bundled file is in dist/keyboard.js'",
+    "build": "node build.js",
     "test": "echo 'Tests not implemented yet'",
-    "prepublishOnly": "echo 'Ready to publish'"
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "keyboard",
     "virtual-keyboard",
     "multilingual",
     "hindi",
+    "gujarati",
     "bengali",
     "tamil",
     "telugu",
@@ -33,7 +41,7 @@
     "i18n",
     "l10n"
   ],
-  "author": "Your Name <your.email@example.com>",
+  "author": "",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -43,7 +51,6 @@
     "url": "https://github.com/yourusername/multilanguage-keyboard/issues"
   },
   "homepage": "https://github.com/yourusername/multilanguage-keyboard#readme",
-  "cdn": "https://cdn.jsdelivr.net/gh/yourusername/multilanguage-keyboard@latest/dist/keyboard.js",
   "browserslist": [
     "> 1%",
     "last 2 versions",

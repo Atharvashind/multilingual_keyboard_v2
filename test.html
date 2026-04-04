@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MultiLanguage Keyboard — Test Suite</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: monospace; background: #0f0f0f; color: #e0e0e0; padding: 24px; }
+        h1 { font-size: 1.2rem; margin-bottom: 20px; color: #fff; }
+
+        #summary {
+            display: flex; gap: 20px; margin-bottom: 24px;
+            font-size: 1rem; font-weight: bold;
+        }
+        .pass-count { color: #4caf50; }
+        .fail-count { color: #f44336; }
+
+        #results { display: flex; flex-direction: column; gap: 6px; margin-bottom: 32px; }
+
+        .test {
+            display: flex; align-items: center; gap: 10px;
+            padding: 8px 12px; border-radius: 6px;
+            background: #1a1a1a; font-size: 0.85rem;
+        }
+        .test.pass { border-left: 3px solid #4caf50; }
+        .test.fail { border-left: 3px solid #f44336; }
+        .badge { font-size: 0.75rem; font-weight: bold; padding: 2px 8px; border-radius: 4px; }
+        .badge.pass { background: #1b5e20; color: #a5d6a7; }
+        .badge.fail { background: #b71c1c; color: #ef9a9a; }
+        .error-msg { color: #ef9a9a; font-size: 0.78rem; margin-left: auto; }
+
+        #sandbox { display: none; }
+    </style>
+</head>
+<body>
+    <h1>🧪 MultiLanguage Keyboard — Test Suite</h1>
+    <div id="summary">
+        <span class="pass-count">✓ <span id="passCount">0</span> passed</span>
+        <span class="fail-count">✗ <span id="failCount">0</span> failed</span>
+    </div>
+    <div id="results"></div>
+
+    <!-- Hidden sandbox elements used by tests -->
+    <div id="sandbox">
+        <textarea id="testInput"></textarea>
+        <div id="testContainer"></div>
+        <div id="testContainer2"></div>
+        <textarea id="testInput2"></textarea>
+    </div>
+
+    <script src="dist/keyboard.js"></script>
+    <script>
+        const results = [];
+
+        function test(name, fn) {
+            try {
+                fn();
+                results.push({ name, pass: true });
+            } catch (e) {
+                results.push({ name, pass: false, error: e.message });
+            }
+        }
+
+        function assert(condition, msg) {
+            if (!condition) throw new Error(msg || 'Assertion failed');
+        }
+
+        function assertEqual(a, b) {
+            if (a !== b) throw new Error(`Expected "${b}", got "${a}"`);
+        }
+
+        // ── Reset helpers ────────────────────────────────────────────────────
+        function freshInput() {
+            const el = document.getElementById('testInput');
+            el.value = '';
+            return el;
+        }
+
+        function freshContainer() {
+            const el = document.getElementById('testContainer');
+            el.innerHTML = '';
+            return el;
+        }
+
+        // ════════════════════════════════════════════════════════════════════
+        // 1. INSTANTIATION
+        // ════════════════════════════════════════════════════════════════════
+
+        test('MultiLanguageKeyboard class exists on window', () => {
+            assert(typeof MultiLanguageKeyboard === 'function');
+        });
+
+        test('Constructor accepts a CSS selector string', () => {
+            const kb = new MultiLanguageKeyboard('#testContainer', { showControls: false });
+            assert(kb instanceof MultiLanguageKeyboard);
+            kb.destroy();
+        });
+
+        test('Constructor accepts a DOM element', () => {
+            const el = freshContainer();
+            const kb = new MultiLanguageKeyboard(el, { showControls: false });
+            assert(kb instanceof MultiLanguageKeyboard);
+            kb.destroy();
+        });
+
+        test('Constructor throws on missing container', () => {
+            let threw = false;
+            try { new MultiLanguageKeyboard('#does-not-exist'); }
+            catch (e) { threw = true; }
+            assert(threw, 'Should have thrown');
+        });
+
+        test('Constructor resolves targetInput from selector string', () => {
+            const kb = new MultiLanguageKeyboard(freshContainer(), {
+                targetInput: '#testInput',
+                showControls: false
+            });
+            assert(kb.targetInput === document.getElementById('testInput'));
+            kb.destroy();
+        });
+
+        test('Default language is english', () => {
+            const kb = new MultiLanguageKeyboard(freshContainer(), { showControls: false });
+            assertEqual(kb.currentLanguage, 'english');
+            kb.destroy();
+        });
+
+        test('Custom language option is applied', () => {
+            const kb = new MultiLanguageKeyboard(freshContainer(), {
+                language: 'hindi', showControls: false
+            });
+            assertEqual(kb.currentLanguage, 'hindi');
+            kb.destroy();
+        });
+
+        // ════════════════════════════════════════════════════════════════════
+        // 2. RENDERING
+        // ════════════════════════════════════════════════════════════════════
+
+        test('Keyboard renders inside container', () => {
+            const el = freshContainer();
+            const kb = new MultiLanguageKeyboard(el, { showControls: false });
+            assert(el.querySelector('.mlk-keyboard') !== null);
+            kb.destroy();
+        });
+
+        test('Language selector buttons are rendered', () => {
+            const el = freshContainer();
+            const kb = new MultiLanguageKeyboard(el, { showControls: false });
+            const btns = el.querySelectorAll('.mlk-lang-btn');
+            assert(btns.length >= 7, `Expected ≥7 lang buttons, got ${btns.length}`);
+            kb.destroy();
+        });
+
+        test('Active language button has .active class', () => {
+            const el = freshContainer();
+            const kb = new MultiLanguageKeyboard(el, { language: 'hindi', showControls: false });
+            const active = el.querySelector('.mlk-lang-btn.active');
+            assert(active !== null);
+            assert(active.textContent.includes('हिन्दी'));
+            kb.destroy();
+        });
+
+        test('showControls: true renders Clear and Speak buttons', () => {
+            const el = freshContainer();
+            const kb = new MultiLanguageKeyboard(el, { showControls: true });
+            const btns = el.querySelectorAll('.mlk-control-btn');
+            assert(btns.length === 2, `Expected 2 control buttons, got ${btns.length}`);
+            kb.destroy();
+        });
+
+        test('showControls: false hides control buttons', () => {
+            const el = freshContainer();
+            const kb = new MultiLanguageKeyboard(el, { showControls: false });
+            const btns = el.querySelectorAll('.mlk-control-btn');
+            assert(btns.length === 0, `Expected 0 control buttons, got ${btns.length}`);
+            kb.destroy();
+        });
+
+        test('Keys have aria-label attributes', () => {
+            const el = freshContainer();
+            const kb = new MultiLanguageKeyboard(el, { showControls: false });
+            const keys = el.querySelectorAll('.mlk-key');
+            const missing = [...keys].filter(k => !k.getAttribute('aria-label'));
+            assert(missing.length === 0, `${missing.length} keys missing aria-label`);
+            kb.destroy();
+        });
+
+        test('Container has role="group" and aria-label', () => {
+            const el = freshContainer();
+            const kb = new MultiLanguageKeyboard(el, { showControls: false });
+            assertEqual(el.getAttribute('role'), 'group');
+            assert(el.getAttribute('aria-label') !== null);
+            kb.destroy();
+        });
+
+        // ════════════════════════════════════════════════════════════════════
+        // 3. KEY INPUT
+        // ════════════════════════════════════════════════════════════════════
+
+        test('handleKey inserts a character into targetInput', () => {
+            const input = freshInput();
+            const kb = new MultiLanguageKeyboard(freshContainer(), {
+                targetInput: input, showControls: false
+            });
+            kb.handleKey('a');
+            assertEqual(input.value, 'a');
+            kb.destroy();
+        });
+
+        test('handleKey inserts at cursor position', () => {
+            const input = freshInput();
+            input.value = 'ac';
+            input.setSelectionRange(1, 1);
+            const kb = new MultiLanguageKeyboard(freshContainer(), {
+                targetInput: input, showControls: false
+            });
+            kb.handleKey('b');
+            assertEqual(input.value, 'abc');
+            kb.destroy();
+        });
+
+        test('handleKey Space inserts a space', () => {
+            const input = freshInput();
+            const kb = new MultiLanguageKeyboard(freshContainer(), {
+                targetInput: input, showControls: false
+            });
+            kb.handleKey('h');
+            kb.handleKey('Space');
+            kb.handleKey('i');
+            assertEqual(input.value, 'h i');
+            kb.destroy();
+        });
+
+        test('handleKey Backspace deletes last character', () => {
+            const input = freshInput();
+            input.value = 'hello';
+            input.setSelectionRange(5, 5);
+            const kb = new MultiLanguageKeyboard(freshContainer(), {
+                targetInput: input, showControls: false
+            });
+            kb.handleKey('Backspace');
+            assertEqual(input.value, 'hell');
+            kb.destroy();
+        });
+
+        test('handleKey Backspace deletes selected range', () => {
+            const input = freshInput();
+            input.value = 'hello';
+            input.setSelectionRange(1, 4); // select 'ell'
+            const kb = new MultiLanguageKeyboard(freshContainer(), {
+                targetInput: input, showControls: false
+            });
+            kb.handleKey('Backspace');
+            assertEqual(input.value, 'ho');
+            kb.destroy();
+        });
+
+        test('handleKey Shift toggles isShift state', () => {
+            const kb = new MultiLanguageKeyboard(freshContainer(), { showControls: false });
+            assert(kb.isShift === false);
+            kb.handleKey('Shift');
+            assert(kb.isShift === true);
+            kb.handleKey('Shift');
+            assert(kb.isShift === false);
+            kb.destroy();
+        });
+
+        test('Shift auto-resets after typing a character', () => {
+            const input = freshInput();
+            const kb = new MultiLanguageKeyboard(freshContainer(), {
+                targetInput: input, showControls: false
+            });
+            kb.handleKey('Shift');
+            assert(kb.isShift === true);
+            kb.handleKey('a'); // should type shifted char and reset shift
+            assert(kb.isShift === false);
+            kb.destroy();
+        });
+
+        test('handleKey Caps toggles isCapsLock state', () => {
+            const kb = new MultiLanguageKeyboard(freshContainer(), { showControls: false });
+            kb.handleKey('Caps');
+            assert(kb.isCapsLock === true);
+            assert(kb.isShift === true);
+            kb.handleKey('Caps');
+            assert(kb.isCapsLock === false);
+            kb.destroy();
+        });
+
+        test('handleKey fires onKeyPress callback', () => {
+            let pressed = null;
+            const kb = new MultiLanguageKeyboard(freshContainer(), {
+                showControls: false,
+                onKeyPress: (k) => { pressed = k; }
+            });
+            kb.handleKey('z');
+            assertEqual(pressed, 'z');
+            kb.destroy();
+        });
+
+        test('handleKey fires input event on targetInput', () => {
+            const input = freshInput();
+            let fired = false;
+            input.addEventListener('input', () => { fired = true; });
+            const kb = new MultiLanguageKeyboard(freshContainer(), {
+                targetInput: input, showControls: false
+            });
+            kb.handleKey('a');
+            assert(fired, 'input event not fired');
+            kb.destroy();
+        });
+
+        // ════════════════════════════════════════════════════════════════════
+        // 4. METHODS
+        // ════════════════════════════════════════════════════════════════════
+
+        test('switchLanguage changes currentLanguage', () => {
+            const kb = new MultiLanguageKeyboard(freshContainer(), { showControls: false });
+            kb.switchLanguage('gujarati');
+            assertEqual(kb.currentLanguage, 'gujarati');
+            kb.destroy();
+        });
+
+        test('switchLanguage re-renders keyboard', () => {
+            const el = freshContainer();
+            const kb = new MultiLanguageKeyboard(el, { showControls: false });
+            kb.switchLanguage('bengali');
+            const active = el.querySelector('.mlk-lang-btn.active');
+            assert(active.textContent.includes('বাংলা'));
+            kb.destroy();
+        });
+
+        test('switchLanguage fires onLanguageChange callback', () => {
+            let changed = null;
+            const kb = new MultiLanguageKeyboard(freshContainer(), {
+                showControls: false,
+                onLanguageChange: (l) => { changed = l; }
+            });
+            changed = null; // reset after init call
+            kb.switchLanguage('tamil');
+            assertEqual(changed, 'tamil');
+            kb.destroy();
+        });
+
+        test('switchLanguage warns on unknown language', () => {
+            const kb = new MultiLanguageKeyboard(freshContainer(), { showControls: false });
+            const orig = console.warn;
+            let warned = false;
+            console.warn = () => { warned = true; };
+            kb.switchLanguage('klingon');
+            console.warn = orig;
+            assert(warned, 'Should have warned about unknown layout');
+            kb.destroy();
+        });
+
+        test('setTarget changes targetInput', () => {
+            const input2 = document.getElementById('testInput2');
+            const kb = new MultiLanguageKeyboard(freshContainer(), { showControls: false });
+            kb.setTarget(input2);
+            assert(kb.targetInput === input2);
+            kb.destroy();
+        });
+
+        test('clear() empties the targetInput', () => {
+            const input = freshInput();
+            input.value = 'hello world';
+            const kb = new MultiLanguageKeyboard(freshContainer(), {
+                targetInput: input, showControls: false
+            });
+            kb.clear();
+            assertEqual(input.value, '');
+            kb.destroy();
+        });
+
+        test('clear() fires input event', () => {
+            const input = freshInput();
+            input.value = 'test';
+            let fired = false;
+            input.addEventListener('input', () => { fired = true; });
+            const kb = new MultiLanguageKeyboard(freshContainer(), {
+                targetInput: input, showControls: false
+            });
+            kb.clear();
+            assert(fired, 'input event not fired on clear');
+            kb.destroy();
+        });
+
+        test('destroy() empties the container', () => {
+            const el = freshContainer();
+            const kb = new MultiLanguageKeyboard(el, { showControls: false });
+            kb.destroy();
+            assertEqual(el.innerHTML, '');
+        });
+
+        test('destroy() removes role and aria-label from container', () => {
+            const el = freshContainer();
+            const kb = new MultiLanguageKeyboard(el, { showControls: false });
+            kb.destroy();
+            assert(!el.getAttribute('role'), 'role should be removed');
+            assert(!el.getAttribute('aria-label'), 'aria-label should be removed');
+        });
+
+        // ════════════════════════════════════════════════════════════════════
+        // 5. STATIC API
+        // ════════════════════════════════════════════════════════════════════
+
+        test('LAYOUTS contains all 7 built-in languages', () => {
+            const langs = Object.keys(MultiLanguageKeyboard.LAYOUTS);
+            const expected = ['english','hindi','marathi','telugu','tamil','bengali','gujarati'];
+            expected.forEach(l => assert(langs.includes(l), `Missing layout: ${l}`));
+        });
+
+        test('registerLayout adds a custom layout', () => {
+            MultiLanguageKeyboard.registerLayout('test-lang', {
+                name: '🧪 Test',
+                normal: [['a','b','Backspace'],['Shift','c','Enter'],['Ctrl','Alt','Space','Ctrl']],
+                shift:  [['A','B','Backspace'],['Shift','C','Enter'],['Ctrl','Alt','Space','Ctrl']]
+            });
+            assert('test-lang' in MultiLanguageKeyboard.LAYOUTS);
+        });
+
+        test('Custom layout is usable in switchLanguage', () => {
+            const kb = new MultiLanguageKeyboard(freshContainer(), { showControls: false });
+            kb.switchLanguage('test-lang');
+            assertEqual(kb.currentLanguage, 'test-lang');
+            kb.destroy();
+        });
+
+        // ════════════════════════════════════════════════════════════════════
+        // RENDER RESULTS
+        // ════════════════════════════════════════════════════════════════════
+
+        const container = document.getElementById('results');
+        let passed = 0, failed = 0;
+
+        results.forEach(r => {
+            const div = document.createElement('div');
+            div.className = `test ${r.pass ? 'pass' : 'fail'}`;
+
+            const badge = document.createElement('span');
+            badge.className = `badge ${r.pass ? 'pass' : 'fail'}`;
+            badge.textContent = r.pass ? 'PASS' : 'FAIL';
+
+            const name = document.createElement('span');
+            name.textContent = r.name;
+
+            div.appendChild(badge);
+            div.appendChild(name);
+
+            if (!r.pass && r.error) {
+                const err = document.createElement('span');
+                err.className = 'error-msg';
+                err.textContent = r.error;
+                div.appendChild(err);
+            }
+
+            container.appendChild(div);
+            r.pass ? passed++ : failed++;
+        });
+
+        document.getElementById('passCount').textContent = passed;
+        document.getElementById('failCount').textContent = failed;
+        document.title = `Tests: ${passed} passed, ${failed} failed`;
+    </script>
+</body>
+</html>
