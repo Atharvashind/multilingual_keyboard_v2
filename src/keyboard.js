@@ -135,7 +135,8 @@ class MultiLanguageKeyboard {
                 align-items: center;
                 justify-content: center;
                 font-family: 'Noto Sans', 'Noto Sans Devanagari', 'Noto Sans Bengali',
-                             'Noto Sans Telugu', 'Noto Sans Tamil', 'Noto Sans Gujarati', sans-serif;
+                             'Noto Sans Telugu', 'Noto Sans Tamil', 'Noto Sans Gujarati',
+                             'Noto Sans Gurmukhi', sans-serif;
                 user-select: none;
             }
             .mlk-key:hover { background: linear-gradient(145deg, #5a6578, #3d4758); }
@@ -403,7 +404,8 @@ class MultiLanguageKeyboard {
             telugu:  'te-IN',
             tamil:   'ta-IN',
             bengali: 'bn-IN',
-            gujarati: 'gu-IN'
+            gujarati: 'gu-IN',
+                punjabi: 'pa-IN'
         };
 
         const utterance = new SpeechSynthesisUtterance(this.targetInput.value);
@@ -536,6 +538,24 @@ MultiLanguageKeyboard.registerLayout('bengali', {
         ['Tab','ঔ','ঐ','আ','ঈ','ঊ','ভ','ঙ','ঘ','ধ','ঝ','ঢ','ঞ','ৗ'],
         ['Caps','ও','এ','অ','ই','উ','ফ','ড়','খ','থ','ছ','ঠ','Enter'],
         ['Shift','এ','ঁ','ম','ণ','ব','ল','শ','ষ','।','য','Shift'],
+        ['Ctrl','Win','Alt','Space','Alt','Win','Menu','Ctrl']
+    ]
+});
+
+MultiLanguageKeyboard.registerLayout('punjabi', {
+    name: '🇮🇳 ਪੰਜਾਬੀ',
+    normal: [
+        ['ੌ','੧','੨','੩','੪','੫','੬','੭','੮','੯','੦','-','ੁ','Backspace'],
+        ['Tab','ੌ','ੈ','ਾ','ੀ','ੂ','ਬ','ਹ','ਗ','ਦ','ਜ','ਡ','਼','ੋ'],
+        ['Caps','ੋ','ੇ','੍','ਿ','ੁ','ਪ','ਰ','ਕ','ਤ','ਚ','ਟ','Enter'],
+        ['Shift','ੲ','ਂ','ਮ','ਨ','ਵ','ਲ','ਸ',',','.','ਯ','Shift'],
+        ['Ctrl','Win','Alt','Space','Alt','Win','Menu','Ctrl']
+    ],
+    shift: [
+        ['ਓ','ਐ','ਔ','੍ਰ','ਣ','ਘ','ਙ','ਝ','਼','ਃ','਼','ੱ','Backspace'],
+        ['Tab','ਔ','ਐ','ਆ','ਈ','ਊ','ਭ','ਃ','ਗ','ਧ','ਝ','ਢ','ਞ','ਓ'],
+        ['Caps','ਓ','ਏ','ਅ','ਇ','ਉ','ਫ','ੜ','ਖ','ਥ','ਛ','ਠ','Enter'],
+        ['Shift','ਏ','ਁ','ਮ','ਨ','ਵ','ਲ','ਸ਼','ਸ਼','।','ਯ','Shift'],
         ['Ctrl','Win','Alt','Space','Alt','Win','Menu','Ctrl']
     ]
 });

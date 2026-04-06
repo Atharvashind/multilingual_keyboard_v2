@@ -2,13 +2,13 @@
 
 A zero-dependency virtual keyboard supporting **7 languages** — drop it into any web project in minutes.
 
-**English • हिन्दी • मराठी • తెలుగు • தமிழ் • বাংলা • ગુજરાતી**
+**English • हिन्दी • मराठी • తెలుగు • தமிழ் • বাংলা • ગુજરાતી • ਪੰਜਾਬੀ**
 
 ---
 
 ## ✨ Features
 
-- 🌐 7 language layouts with native scripts
+- 🌐 8 language layouts with native scripts
 - ♿ Accessible — ARIA roles, `aria-pressed` states, screen-reader friendly
 - 📱 Responsive — mobile, tablet, desktop
 - 🔊 Text-to-Speech via Web Speech API
@@ -220,7 +220,7 @@ Returns all currently registered layouts.
 
 ```js
 console.log(Object.keys(MultiLanguageKeyboard.LAYOUTS));
-// ['english', 'hindi', 'marathi', 'telugu', 'tamil', 'bengali', 'gujarati']
+// ['english', 'hindi', 'marathi', 'telugu', 'tamil', 'bengali', 'gujarati', 'punjabi']
 ```
 
 ---
@@ -236,6 +236,7 @@ console.log(Object.keys(MultiLanguageKeyboard.LAYOUTS));
 | Tamil     | `tamil`     | Tamil      | `ta-IN`    |
 | Bengali   | `bengali`   | Bengali    | `bn-IN`    |
 | Gujarati  | `gujarati`  | Gujarati   | `gu-IN`    |
+| Punjabi   | `punjabi`   | Gurmukhi   | `pa-IN`    |
 
 ---
 

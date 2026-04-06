@@ -12,6 +12,7 @@ export type LanguageCode =
     | 'tamil'
     | 'bengali'
     | 'gujarati'
+    | 'punjabi'
     | (string & {}); // allow custom registered layouts
 
 export interface KeyboardOptions {
