@@ -380,7 +380,8 @@ Covered cases include: CSS selector and DOM element constructors, missing contai
 ## � Screenshots
 
 ### Desktop
-<img width="900" height="443" alt="guaj_desktop" src="https://github.com/user-attachments/assets/5bd5f856-2b20-4365-9eb0-bfec43ed81ea" />
+<img width="764" height="442" alt="panjabi" src="https://github.com/user-attachments/assets/4ac44b7c-3a1e-4db3-81fc-e52c1b43d5d3" />
+
 
 
 ### Mobile
