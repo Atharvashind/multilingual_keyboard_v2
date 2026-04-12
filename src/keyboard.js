@@ -75,7 +75,9 @@ class MultiLanguageKeyboard {
         const styles = `
             .mlk-container {
                 font-family: 'Noto Sans', sans-serif;
-                background: linear-gradient(145deg, #2c3e50, #34495e);
+                background: linear-gradient(145deg, rgba(44, 62, 80, 0.75), rgba(52, 73, 94, 0.75));
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
                 border-radius: 20px;
                 padding: 20px;
                 box-shadow: 0 20px 60px rgba(0,0,0,0.4);

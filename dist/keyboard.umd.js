@@ -2,7 +2,7 @@
  * multilanguage-keyboard v1.0.1
  * A zero-dependency virtual keyboard supporting English, Hindi, Marathi, Telugu, Tamil, Bengali and Gujarati
  * License: MIT
- * Built: 2026-04-06T19:37:03.772Z
+ * Built: 2026-04-12T15:34:30.986Z
  */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined'
@@ -89,7 +89,9 @@
             const styles = `
                 .mlk-container {
                     font-family: 'Noto Sans', sans-serif;
-                    background: linear-gradient(145deg, #2c3e50, #34495e);
+                    background: linear-gradient(145deg, rgba(44, 62, 80, 0.75), rgba(52, 73, 94, 0.75));
+                    backdrop-filter: blur(12px);
+                    -webkit-backdrop-filter: blur(12px);
                     border-radius: 20px;
                     padding: 20px;
                     box-shadow: 0 20px 60px rgba(0,0,0,0.4);
